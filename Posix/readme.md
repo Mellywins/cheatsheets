@@ -17,7 +17,7 @@ All the functions, structs and constants exist within the pthread module.
  
  ### Explaining the parameters:
  * thread: pointer of type pthread_t
- * attr : variable of type pthread_attr_t. this is a structure containing configuration constants (representing a manifest of the thread) to determine specefic functionalities. Click <p id=" ">here</p> to view explanation.
+ * attr : variable of type pthread_attr_t. this is a structure containing configuration constants (representing a manifest of the thread) to determine specefic functionalities. Click <p href="#attr">here</p> to view explanation.
  * start_routine: function to be executed
  * arg: argument passed to the start_routine function, generally void*(equivalent to any in typescript).
 
