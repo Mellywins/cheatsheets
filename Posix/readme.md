@@ -29,7 +29,7 @@ If the use case requires your current function to wait on a thread to finish its
   * thread: pointer of type pthread_t to the thread that's to be waited upon.
   * thread_return: return value of the waited upon thread upon finishing its execution.
 
-> NB: void ** means pointer of anything possible return type. ~ pointer to Any
+> NB: void ** means pointer of any possible return type. ~ pointer to Any
 
 ## Example using the last 2 sections:
 ```
