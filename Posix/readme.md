@@ -238,7 +238,7 @@ int clock_gettime(clockid_t CLOCK_REALTIME | CLOCK_MONOTONIC |CLOCK_PROCESS_CPUT
 > Note that many of these clock_id variables do not exist on windows Hosts.
 
 The Posix module takes the following approach:
-Since the thread has a time condition to meet before waking up and executing its task, the implementation has to a conditional mutex key seen in the section above.
+Since the thread has a time condition to meet before waking up and executing its task, the implementation has to resemble a conditional mutex approach seen in the section above.
 So to wake up a thread after a <b>time</b> amount of time, use the following :
 ```
 int pthread_cond_timedwait(pthread_cond_t *cond, pthread_mutex_t *key, struct
