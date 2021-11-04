@@ -32,7 +32,7 @@ If the use case requires your current function to wait on a thread to finish its
 > NB: void ** means pointer of any possible return type. ~ pointer to Any
 
 ## Example using the last 2 sections:
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -80,7 +80,7 @@ There are 2 ways to achieve this:
   ``` int pthread_attr_setinheritsched(pthread_attr_t *attr, PTHREAD_INHERIT_SCHED) ```
 
 2. Explicity defining the scheduling strategy for the thread:
-``` 
+```c 
 int pthread_attr_setinheritsched(pthread_attr_t *attr, PTHREAD_EXPLICIT_SCHED);
 int pthread_attr_setschedpolicy(pthread_attr_t *attr, SCHED_RR | SCHED_OTHER | SCHED_FIFO)
 ```
@@ -91,11 +91,11 @@ int pthread_attr_setschedpolicy(pthread_attr_t *attr, SCHED_RR | SCHED_OTHER | S
 
 > It's possible to change the scheduling settings of a process during its execution by using the following function 
 
-``` int pthread_setschedparam(pthread_t thread, int policy, const struct sched_param *param) ```
+```c int pthread_setschedparam(pthread_t thread, int policy, const struct sched_param *param) ```
 
 ## Priority & Scheduling example:
 
-``` 
+```c 
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -144,7 +144,7 @@ pthread_mutex_unlock(pthread_mutex_t *key);
  ### Mutex Code example
 Credits to [Amine Haj Ali](https://github.com/hajali-amine).
 
- ```
+ ```c
  #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -207,11 +207,11 @@ Refer to this [link](https://www.youtube.com/watch?v=DTHoiQreroE) for a good exp
 You can see the problem that this section solves in the following manner:
 Imagine we have a producer and a consumer sharing a Queue between them. If by some order of chance the consumer gets hold of the mutex when the Queue is empty, we fall into the pit of unefficient multi-threadding. So we need another lock alongside the mutex to determine wether it's okay for the consumer to consume.
 * We start by initializing a conditional variable like this: 
-```
+```c
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER; 
 ```
 * To make a thread possessing the mutex key but unable to consume due to the condition mismatch go to sleep and let go of its mutex, we call the following method:
-```
+```c
 int pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *key)
 ```
 * To send a wake up signal to <b> ONE THREAD</b> who slept on this conditional variable, we use 
@@ -219,7 +219,7 @@ int pthread_cond_wait(pthread_cond_t *cond, pthread_mutex_t *key)
  int pthread_cond_signal(pthread_cond_t *cond) 
  ```
  * If you wish to wake up all the threads waiting on that conditional use this instead:
- ```
+ ```c
  int pthread_cond_broadcast(pthread_cond_t *cond)
  ```
 
@@ -228,11 +228,11 @@ Soon™
 ## <p id="pt">Periodic Tasks</p>
 To create periodic tasks, one should follow these steps:
 1. Delcare a time struct called timespec
-```
+```c
 struct timespec time;
 ```
 2. To retrieve the time in the variable we declared, we call the following function:
-```
+```c
 int clock_gettime(clockid_t CLOCK_REALTIME | CLOCK_MONOTONIC |CLOCK_PROCESS_CPUTIME_ID | CLOCK_THREAD_CPUTIME_ID, struct timespec *time);
 ```
 > Note that many of these clock_id variables do not exist on windows Hosts.
@@ -240,12 +240,12 @@ int clock_gettime(clockid_t CLOCK_REALTIME | CLOCK_MONOTONIC |CLOCK_PROCESS_CPUT
 The Posix module takes the following approach:
 Since the thread has a time condition to meet before waking up and executing its task, the implementation has to resemble a conditional mutex approach seen in the section above.
 So to wake up a thread after a <b>time</b> amount of time, use the following :
-```
+```c
 int pthread_cond_timedwait(pthread_cond_t *cond, pthread_mutex_t *key, struct
 timespec *time)
 ```
 ### Code example of Periodic tasks
-```
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
